@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { TabIcon } from 'components/Icons/TabIcon';
 import { routePathConfig } from 'route/config';
@@ -28,7 +28,9 @@ const Logo = styled.div`
   justify-content: center;
 `;
 
-const Tab = styled.div`
+const Tab = styled.div<{
+  $isActive: boolean;
+}>`
   height: 58px;
   display: flex;
   align-items: center;
@@ -45,6 +47,7 @@ const Tab = styled.div`
   &:hover {
     ${activeTab}
   }
+  ${(props) => props.$isActive && activeTab}
   @media ${(props) => props.theme.mobile} {
     display: none;
   }
@@ -74,16 +77,19 @@ const Container = styled.div`
 
 const SideMenu = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
     <Container>
       <Logo>
         <GradientText>LOGO</GradientText>
       </Logo>
-      <Tab onClick={() => navigate(routePathConfig.home)}>
+      <Tab $isActive={pathname === routePathConfig.home} onClick={() => navigate(routePathConfig.home)}>
         <TabIcon />
         <div className="tab__text">Home</div>
       </Tab>
-      <Tab style={{ marginTop: '6px' }} onClick={() => navigate(routePathConfig.tags)}>
+      <Tab $isActive={pathname === routePathConfig.tags} style={{ marginTop: '6px' }} onClick={() => navigate(routePathConfig.tags)}>
         <TabIcon />
         <div className="tab__text">Tags</div>
       </Tab>

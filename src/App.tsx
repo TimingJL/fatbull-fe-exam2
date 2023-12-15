@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import SideMenu from 'components/SideMenu';
-import ButtonNav from 'components/ButtonNav';
+import BottomNav from 'components/BottomNav';
 import Router from './route/Router';
 
 const Container = styled.div`
@@ -18,7 +18,7 @@ const App = () => {
     <Container>
       <SideMenu />
       <Router />
-      <ButtonNav />
+      <BottomNav />
     </Container>
   );
 };
