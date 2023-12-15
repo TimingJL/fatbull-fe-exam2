@@ -1,7 +1,9 @@
+import Router from './route/Router';
+
 const App = () => {
   return (
     <>
-      <div>vite</div>
+      <Router />
     </>
   );
 };
