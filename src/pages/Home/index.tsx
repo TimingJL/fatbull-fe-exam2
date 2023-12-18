@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import Search from './Search';
 import UserList from './UserList';
 
 const Container = styled.div`
@@ -9,7 +10,7 @@ const Container = styled.div`
 
 const Home = () => (
   <Container>
-    Home
+    <Search />
     <UserList />
   </Container>
 );
