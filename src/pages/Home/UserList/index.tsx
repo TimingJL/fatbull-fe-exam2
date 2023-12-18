@@ -2,11 +2,12 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import List from './List';
+import FollowersList from './FollowersList';
+import FollowingsList from './FollowingsList';
 import Tabs from './Tabs';
 
 const Container = styled.div`
-  width: 375px;
+  width: 372px;
   display: none;
   @media ${(props) => props.theme.desktopUp} {
     display: block;
@@ -29,7 +30,8 @@ const UserList = () => {
   return (
     <Container>
       <Tabs activeTab={activeTab} options={options} onChange={(value) => setActiveTab(value)} />
-      <List />
+      {activeTab === 'followers' && <FollowersList />}
+      {activeTab === 'following' && <FollowingsList />}
     </Container>
   );
 };

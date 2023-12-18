@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-top: 32px;
+  padding-top: 34px;
 `;
 
 const Option = styled.div<{
@@ -14,9 +14,12 @@ const Option = styled.div<{
   text-align: center;
   font-size: 16px;
   border-bottom: ${(props) => (props.$isActive ? '2px solid #FFF' : '2px solid transparent')};
-  padding-bottom: 16px;
+  padding-bottom: 10px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  .option__name {
+    line-height: 20px;
+  }
 `;
 
 interface IProps {
@@ -34,7 +37,7 @@ const Tabs = (props: IProps) => {
     <Container>
       {options.map((option) => (
         <Option key={option.key} $isActive={activeTab === option.key} onClick={() => onChange(option.key)}>
-          {option.name}
+          <div className="option__name">{option.name}</div>
         </Option>
       ))}
     </Container>
