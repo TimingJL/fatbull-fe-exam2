@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-const SIZE_THUMB = 20;
+const SIZE_THUMB = 26;
 const step = 20;
 const defaultValue = 80;
 

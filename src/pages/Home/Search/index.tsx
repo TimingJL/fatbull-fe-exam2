@@ -68,6 +68,7 @@ const Result = styled.div`
     margin-left: 10px;
     display: flex;
     align-items: flex-end;
+    padding-bottom: 5px;
   }
 `;
 
