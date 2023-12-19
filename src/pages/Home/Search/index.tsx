@@ -5,17 +5,6 @@ import Slider from 'components/Slider';
 
 const options = [3, 6, 9, 12, 15, 50];
 
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: var(--Greyscale-light, #fff);
-  opacity: 0.1;
-  margin-top: 30px;
-  @media ${(props) => props.theme.mobile} {
-    display: none;
-  }
-`;
-
 const Container = styled.div`
   flex-grow: 1;
   display: flex;
@@ -43,12 +32,28 @@ const SearchSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 30px;
+  @media ${(props) => props.theme.mobile} {
+    padding-bottom: 0px;
+    border: none;
+  }
 `;
 
 const PageSizeSection = styled.div`
   padding-top: 30px;
   @media ${(props) => props.theme.mobile} {
     padding-top: 28px;
+  }
+`;
+
+const SubmitSection = styled.div`
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 30px;
+  padding-top: 335px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top: 218px;
+    padding-top: 80px;
   }
 `;
 
@@ -72,6 +77,26 @@ const Result = styled.div`
   }
 `;
 
+const Button = styled.button`
+  border-radius: 4px;
+  color: #121212;
+  background: var(--Primary-Main, #fff);
+  border: 1px solid #fff;
+  height: 40px;
+  width: 100%;
+  max-width: 343px;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    color: #fff;
+    background: #121212;
+  }
+`;
+
 const Search = () => {
   const [resultsPerPage, setResultsPerPage] = React.useState<number>();
   return (
@@ -81,7 +106,6 @@ const Search = () => {
           <Label>Search</Label>
           <Input placeholder="keyword" />
         </SearchSection>
-        <Divider />
         <PageSizeSection>
           <Label># of results per page</Label>
           <Result>
@@ -92,7 +116,9 @@ const Search = () => {
             <Slider options={options} onChange={(value) => setResultsPerPage(value)} />
           </div>
         </PageSizeSection>
-        <Divider />
+        <SubmitSection>
+          <Button>Search</Button>
+        </SubmitSection>
       </Content>
     </Container>
   );
