@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getUsers } from 'api/index';
+import { uniqBy } from 'lodash';
 
+import { getUsers } from 'api/index';
 import User from './User';
 
 const pageSize = 20;
@@ -16,18 +17,18 @@ const Container = styled.div`
   }
 `;
 
+interface IData {
+  id: string;
+  name: string;
+  username: string;
+  avater: string;
+  isFollowing: boolean;
+}
+
 const FollowersList = () => {
   const targetRef = React.useRef(null);
   const [page, setPage] = React.useState(1);
-  const [data, setData] = React.useState<
-    {
-      id: string;
-      name: string;
-      username: string;
-      avater: string;
-      isFollowing: boolean;
-    }[]
-  >([]);
+  const [data, setData] = React.useState<IData[]>([]);
   const [total, setTotal] = React.useState(0);
 
   React.useEffect(() => {
@@ -68,8 +69,20 @@ const FollowersList = () => {
       page,
       pageSize,
     }).then((res) => {
-      setData(res.data.data);
-      setTotal(res.data.total);
+      const { data: newData, total } = res.data;
+      setData(
+        uniqBy(
+          [
+            ...data,
+            ...newData.map((d: IData, index: number) => ({
+              ...d,
+              avater: `https://picsum.photos/id/${index + 10}/219/146`, // the origin avater link is unavailable.
+            })),
+          ],
+          'id',
+        ),
+      );
+      setTotal(total);
     });
   }, [page]);
 
