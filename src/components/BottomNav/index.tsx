@@ -28,7 +28,9 @@ const Tab = styled.div<{
 
 const Container = styled.div`
   display: none;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
+    position: sticky;
+    bottom: 0px;
     display: flex;
     justify-content: center;
     align-items: center;

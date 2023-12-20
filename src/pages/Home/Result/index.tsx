@@ -24,7 +24,7 @@ const Content = styled.div`
   max-width: 725px;
   width: 100%;
   padding: 92px 20px 20px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     padding-top: 0px;
   }
 `;
@@ -37,7 +37,7 @@ const PageTitle = styled.div`
   gap: 25px;
   position: relative;
   left: -45px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     left: 0px;
   }
 `;

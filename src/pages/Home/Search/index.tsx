@@ -19,7 +19,7 @@ const Content = styled.div`
   max-width: 725px;
   width: 100%;
   padding: 54px 20px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     padding-top: 0px;
   }
 `;
@@ -38,7 +38,7 @@ const SearchSection = styled.div`
   gap: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 30px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     padding-bottom: 0px;
     border: none;
   }
@@ -46,7 +46,7 @@ const SearchSection = styled.div`
 
 const PageSizeSection = styled.div`
   padding-top: 30px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     padding-top: 28px;
   }
 `;
@@ -55,7 +55,7 @@ const SubmitSection = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 30px;
   padding-top: 335px;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     margin-top: 218px;
     padding-top: 80px;
   }

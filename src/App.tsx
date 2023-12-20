@@ -7,7 +7,7 @@ import Router from './route/Router';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  @media ${(props) => props.theme.tablet}, ${(props) => props.theme.desktopUp} {
+  @media ${(props) => props.theme.desktopUp} {
     flex-direction: row;
   }
 `;

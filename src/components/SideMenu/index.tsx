@@ -48,7 +48,7 @@ const Tab = styled.div<{
     ${activeTab}
   }
   ${(props) => props.$isActive && activeTab}
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     display: none;
   }
 `;
@@ -72,7 +72,7 @@ const Container = styled.div`
   flex: 0 0 auto;
   box-sizing: border-box;
   background: #1b1b1b;
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     ${containerMobile}
   }
 `;
