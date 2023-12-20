@@ -9,6 +9,9 @@ import Tabs from './Tabs';
 const Container = styled.div`
   width: 372px;
   display: none;
+  position: sticky;
+  top: 0px;
+  height: 100vh;
   @media ${(props) => props.theme.desktopUp} {
     display: block;
   }

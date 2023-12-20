@@ -64,6 +64,8 @@ const GradientText = styled.div`
 `;
 
 const Container = styled.div`
+  position: sticky;
+  top: 0px;
   width: 88px;
   height: 100vh;
   border-right: 1px solid rgba(0, 0, 0, 0.2);

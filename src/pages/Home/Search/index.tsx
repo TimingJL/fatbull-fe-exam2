@@ -1,7 +1,11 @@
 import React from 'react';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import Input from 'components/Input';
 import Slider from 'components/Slider';
+import { Button } from 'components/styled';
+import { routePathConfig } from 'route/config';
 
 const options = [3, 6, 9, 12, 15, 50];
 
@@ -77,34 +81,25 @@ const Result = styled.div`
   }
 `;
 
-const Button = styled.button`
-  border-radius: 4px;
-  color: #121212;
-  background: var(--Primary-Main, #fff);
-  border: 1px solid #fff;
-  height: 40px;
-  width: 100%;
-  max-width: 343px;
-  box-sizing: border-box;
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    color: #fff;
-    background: #121212;
-  }
-`;
-
 const Search = () => {
+  const navigate = useNavigate();
+  const [keyword, setKeyword] = React.useState('');
   const [resultsPerPage, setResultsPerPage] = React.useState<number>();
+
+  const handleOnSubmit = () => {
+    navigate({
+      pathname: routePathConfig.home,
+      search: createSearchParams({
+        keyword: keyword,
+      }).toString(),
+    });
+  };
   return (
     <Container>
       <Content>
         <SearchSection>
           <Label>Search</Label>
-          <Input placeholder="keyword" />
+          <Input placeholder="keyword" onChange={(event) => setKeyword(event.target.value)} />
         </SearchSection>
         <PageSizeSection>
           <Label># of results per page</Label>
@@ -117,7 +112,7 @@ const Search = () => {
           </div>
         </PageSizeSection>
         <SubmitSection>
-          <Button>Search</Button>
+          <Button onClick={handleOnSubmit}>Search</Button>
         </SubmitSection>
       </Content>
     </Container>
