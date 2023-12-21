@@ -8,8 +8,6 @@ import { getUsers } from 'api/index';
 import { routePathConfig } from 'route/config';
 import Skeleton from './Skeleton';
 
-const pageSize = 9;
-
 const BackButton = styled(ArrowLeft)`
   cursor: pointer;
 `;
@@ -106,11 +104,12 @@ interface IData {
 
 interface IProps {
   keyword: string;
+  pageSize?: number;
 }
 
 const Result = (props: IProps) => {
   const targetRef = React.useRef(null);
-  const { keyword } = props;
+  const { keyword, pageSize = 9 } = props;
   const navigate = useNavigate();
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState<IData[]>([]);

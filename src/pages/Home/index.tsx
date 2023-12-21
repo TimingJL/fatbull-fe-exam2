@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 
@@ -12,12 +13,17 @@ const Container = styled.div`
 `;
 
 const Home = () => {
+  const [pageSize, setPageSize] = React.useState(9); // [1
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('keyword');
 
   return (
     <Container>
-      {keyword ? <Result keyword={keyword} /> : <Search />}
+      {keyword ? (
+        <Result keyword={keyword} pageSize={pageSize} />
+      ) : (
+        <Search pageSize={pageSize} handleChangePageSize={(value) => setPageSize(value)} />
+      )}
       <UserList />
     </Container>
   );

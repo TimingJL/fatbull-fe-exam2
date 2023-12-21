@@ -2,8 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const SIZE_THUMB = 26;
-const step = 20;
-const defaultValue = 80;
 
 const railStyle = css`
   background: rgba(255, 255, 255, 0.3); /* rail color */
@@ -81,10 +79,11 @@ interface IProps {
 
 const Slider = (props: IProps) => {
   const sliderRef = React.useRef(null);
+  const { onChange, max = 100, value = 0, options = [3, 6, 9, 12, 15, 50] } = props;
+  const step = 100 / (options.length - 1);
+  const defaultValue = options.indexOf(value) * step;
   const [currentValue, setCurrentValue] = React.useState(defaultValue);
-  const { onChange, max = 100, options = [3, 6, 9, 12, 15, 50] } = props;
   const activeIndex = (currentValue + step) / step - 1;
-
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event?.target?.value);
     setCurrentValue(value);
@@ -92,7 +91,7 @@ const Slider = (props: IProps) => {
 
   React.useEffect(() => {
     if (onChange) {
-      onChange(activeIndex);
+      onChange(options[activeIndex]);
     }
   }, [currentValue, activeIndex, onChange]);
 

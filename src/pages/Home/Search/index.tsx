@@ -81,10 +81,15 @@ const Result = styled.div`
   }
 `;
 
-const Search = () => {
+interface IProps {
+  pageSize?: number;
+  handleChangePageSize?: (value: number) => void;
+}
+
+const Search = (props: IProps) => {
   const navigate = useNavigate();
+  const { pageSize, handleChangePageSize = () => null } = props;
   const [keyword, setKeyword] = React.useState('');
-  const [resultsPerPage, setResultsPerPage] = React.useState<number>();
 
   const handleOnSubmit = () => {
     navigate({
@@ -104,11 +109,11 @@ const Search = () => {
         <PageSizeSection>
           <Label># of results per page</Label>
           <Result>
-            <div className="result__number">{options[resultsPerPage || 0]}</div>
+            <div className="result__number">{pageSize}</div>
             <div className="result__unit">results</div>
           </Result>
           <div>
-            <Slider options={options} onChange={(value) => setResultsPerPage(value)} />
+            <Slider value={pageSize} options={options} onChange={(value) => handleChangePageSize(value)} />
           </div>
         </PageSizeSection>
         <SubmitSection>
