@@ -6,6 +6,7 @@ import { ArrowLeft } from 'components/Icons/ArrowLeft';
 import { getTags } from 'api/index';
 import { routePathConfig } from 'route/config';
 import Card from './Card';
+import Skeleton from './Skeleton';
 
 const Container = styled.div`
   display: flex;
@@ -68,9 +69,12 @@ interface ITag {
 const Tags = () => {
   const navigate = useNavigate();
   const [tags, setTags] = React.useState<ITag[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
+    setLoading(true);
     getTags().then((res) => {
+      setLoading(false);
       const { data } = res;
       setTags(data);
     });
@@ -89,6 +93,15 @@ const Tags = () => {
             {tags.map((tag) => (
               <Card key={tag.id} tag={tag} />
             ))}
+            {loading && (
+              <>
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+              </>
+            )}
           </TagsGrid>
         </Content>
       </Container>
