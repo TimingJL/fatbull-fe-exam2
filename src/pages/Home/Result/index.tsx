@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { uniqBy } from 'lodash';
 
 import { ArrowLeft } from 'components/Icons/ArrowLeft';
-import { Button } from 'components/styled';
 import { getUsers } from 'api/index';
 import { routePathConfig } from 'route/config';
+import Skeleton from './Skeleton';
 
 const pageSize = 9;
 
@@ -69,18 +69,18 @@ const ResultsGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 31px 34px;
   padding-top: 24px;
+  img {
+    width: 100%;
+    min-width: 219px;
+    aspect-ratio: 219/146;
+    background: rgba(255, 255, 255, 0.06);
+  }
   @media ${(props) => props.theme.tablet} {
     grid-template-columns: repeat(2, 1fr);
-    img {
-      width: 100%;
-    }
   }
   @media ${(props) => props.theme.mobile} {
     grid-template-columns: repeat(1, 1fr);
     gap: 40px;
-    img {
-      width: 100%;
-    }
   }
 `;
 
@@ -109,19 +109,55 @@ interface IProps {
 }
 
 const Result = (props: IProps) => {
+  const targetRef = React.useRef(null);
   const { keyword } = props;
   const navigate = useNavigate();
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState<IData[]>([]);
   const [total, setTotal] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(false);
   const hasDataToLoad = data.length < total;
 
   React.useEffect(() => {
+    const options = {
+      root: null, // Use the viewport as the root
+      rootMargin: '0px', // No margin around the root
+      threshold: 0, // Trigger when 50% of the target is visible
+    };
+
+    const callback = (entries: { isIntersecting: boolean }[]) => {
+      entries.forEach((entry: { isIntersecting: boolean }) => {
+        if (entry.isIntersecting) {
+          // The target is now in the viewport
+          if (isLoading) return;
+          const totalLoaded = pageSize * page;
+          if (totalLoaded < total) {
+            setPage(page + 1);
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+
+    if (targetRef.current) {
+      observer.observe(targetRef.current);
+    }
+
+    // Cleanup observer on component unmount
+    return () => {
+      observer.disconnect();
+    };
+  }, [page, total, isLoading]);
+
+  React.useEffect(() => {
+    setIsLoading(true);
     getUsers({
       page,
       pageSize,
       keyword,
     }).then((res) => {
+      setIsLoading(false);
       const { data: newData, total } = res.data;
       setData(
         uniqBy(
@@ -159,20 +195,15 @@ const Result = (props: IProps) => {
                 <Username>by {d.username}</Username>
               </div>
             ))}
+            {hasDataToLoad && <div ref={targetRef} style={{ height: 0 }} />}
+            {isLoading && (
+              <>
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+              </>
+            )}
           </ResultsGrid>
-          {hasDataToLoad && (
-            <Button
-              style={{ margin: '39px 0px' }}
-              onClick={() => {
-                if (hasDataToLoad) {
-                  setPage(page + 1);
-                }
-              }}
-              disabled={data.length >= total}
-            >
-              More
-            </Button>
-          )}
         </Content>
       </Container>
     </>
