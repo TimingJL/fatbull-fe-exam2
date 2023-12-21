@@ -6,6 +6,7 @@ import { uniqBy } from 'lodash';
 import { ArrowLeft } from 'components/Icons/ArrowLeft';
 import { getUsers } from 'api/index';
 import { routePathConfig } from 'route/config';
+import useIntersectionObserver from 'hooks/useIntersectionObserver';
 import Skeleton from './Skeleton';
 
 const BackButton = styled(ArrowLeft)`
@@ -108,46 +109,22 @@ interface IProps {
 }
 
 const Result = (props: IProps) => {
-  const targetRef = React.useRef(null);
   const { keyword, pageSize = 9 } = props;
   const navigate = useNavigate();
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState<IData[]>([]);
   const [total, setTotal] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
+  const { targetRef } = useIntersectionObserver({
+    onEntryIntersect: () => {
+      if (isLoading) return;
+      const totalLoaded = pageSize * page;
+      if (totalLoaded < total) {
+        setPage(page + 1);
+      }
+    },
+  });
   const hasDataToLoad = data.length < total;
-
-  React.useEffect(() => {
-    const options = {
-      root: null, // Use the viewport as the root
-      rootMargin: '0px', // No margin around the root
-      threshold: 0, // Trigger when 50% of the target is visible
-    };
-
-    const callback = (entries: { isIntersecting: boolean }[]) => {
-      entries.forEach((entry: { isIntersecting: boolean }) => {
-        if (entry.isIntersecting) {
-          // The target is now in the viewport
-          if (isLoading) return;
-          const totalLoaded = pageSize * page;
-          if (totalLoaded < total) {
-            setPage(page + 1);
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(callback, options);
-
-    if (targetRef.current) {
-      observer.observe(targetRef.current);
-    }
-
-    // Cleanup observer on component unmount
-    return () => {
-      observer.disconnect();
-    };
-  }, [page, total, isLoading]);
 
   React.useEffect(() => {
     setIsLoading(true);

@@ -11,6 +11,7 @@
       "components/*": ["./src/components/*"],
       "assets/*": ["./src/assets/*"],
       "api/*": ["./src/api/*"],
+      "hooks/*": ["./src/hooks/*"],
       "route/*": ["./src/route/*"]
     },
 
