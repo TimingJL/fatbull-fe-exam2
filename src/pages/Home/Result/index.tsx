@@ -30,7 +30,7 @@ const Content = styled.div`
   }
 `;
 
-const MobileBackButton = styled.div`
+const HeaderBackButton = styled.div`
   display: none;
   @media ${(props) => props.theme.mobile}, ${(props) => props.theme.tablet} {
     display: flex;
@@ -141,10 +141,10 @@ const Result = (props: IProps) => {
 
   return (
     <>
-      <MobileBackButton>
+      <HeaderBackButton>
         <BackButton onClick={() => navigate(routePathConfig.home)} />
         Home Page
-      </MobileBackButton>
+      </HeaderBackButton>
       <Container>
         <Content>
           <PageTitle>
