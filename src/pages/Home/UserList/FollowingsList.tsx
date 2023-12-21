@@ -4,6 +4,7 @@ import { uniqBy } from 'lodash';
 
 import { getFriends } from 'api/index';
 import User from './User';
+import SkeletonUser from './SkeletonUser';
 
 const pageSize = 20;
 
@@ -30,6 +31,7 @@ const FollowingsList = () => {
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState<IData[]>([]);
   const [total, setTotal] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     const options = {
@@ -42,12 +44,11 @@ const FollowingsList = () => {
       entries.forEach((entry: { isIntersecting: boolean }) => {
         if (entry.isIntersecting) {
           // The target is now in the viewport
+          if (isLoading) return;
           const totalLoaded = pageSize * page;
           if (totalLoaded < total) {
             setPage(page + 1);
           }
-        } else {
-          // The target is no longer in the viewport
         }
       });
     };
@@ -62,13 +63,15 @@ const FollowingsList = () => {
     return () => {
       observer.disconnect();
     };
-  }, [page, total]);
+  }, [page, total, isLoading]);
 
   React.useEffect(() => {
+    setIsLoading(true);
     getFriends({
       page,
       pageSize,
     }).then((res) => {
+      setIsLoading(false);
       const { data: newData, total } = res.data;
       setData(
         uniqBy(
@@ -91,7 +94,16 @@ const FollowingsList = () => {
       {data.map((user) => (
         <User key={user.id} user={user} />
       ))}
-      <div ref={targetRef} style={{ height: 1 }} />
+      <div ref={targetRef} style={{ height: 0 }} />
+      {isLoading && (
+        <>
+          <SkeletonUser />
+          <SkeletonUser />
+          <SkeletonUser />
+          <SkeletonUser />
+          <SkeletonUser />
+        </>
+      )}
     </Container>
   );
 };
